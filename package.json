@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A simple api created using pure nodejs packages",
   "main": "server.ts",
+  "scripts": {
+    "dev": "ts-node-dev src/server.ts"
+  },
   "author": "hahuma <firminopetterson@gmail.com>",
   "license": "MIT",
   "private": false,
