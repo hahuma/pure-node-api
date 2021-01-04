@@ -1,10 +1,12 @@
 import http from "http";
-import url from "url";
+import check from "./helpers/routesChecker";
+import routes from "./routes";
 
 const app = http.createServer((req, res) => {
-  if (req.url) {
-    const reqUrl = url.parse(req.url, true);
-    res.end(JSON.stringify(reqUrl));
+  const { method, query, pathname } = check(req);
+  if (method && pathname) {
+    const response = routes[method][pathname](query);
+    res.end(JSON.stringify(response));
   }
 });
 
