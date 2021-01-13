@@ -2,7 +2,9 @@ echo "\nList Users\n"
 curl -X GET http://127.0.0.1:3333
 
 echo "\nCreate User\n"
-curl -X POST http://127.0.0.1:3333/create
+curl --silent -X POST  \
+    --data-binary '{ "name": "Pedro" }' \
+    http://127.0.0.1:3333/create
 
 
 echo "\nDelete User\n"

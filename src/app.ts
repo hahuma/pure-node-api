@@ -1,15 +1,17 @@
+import { resolve } from "dns";
 import http from "http";
 import check from "./helpers/routesChecker";
 import routes from "./routes";
 
-console.time("app");
-const app = http.createServer((req, res) => {
-  const { method, query, pathname } = check(req);
-  if (method && pathname) {
-    const response = routes[method][pathname](query);
-    res.write(response);
+export const DEFAULT_HEADERS = {
+  "Content-Type": "application/json",
+};
 
-    res.end();
+console.time("app");
+const app = http.createServer(async (req, res) => {
+  const { method, pathname } = check(req);
+  if (method && pathname) {
+    routes[method][pathname](req, res) || routes["DEFAULT"]["/error"](req, res);
   }
 });
 console.timeEnd("app");

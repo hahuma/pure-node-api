@@ -1,11 +1,16 @@
+import { IncomingMessage, ServerResponse } from "http";
+
 import { ParsedUrlQuery } from "querystring";
-
+import { IUser } from "./database";
 export interface IRoutes {
-  [GET: string]: IRoute;
-  [POST: string]: IRoute;
-  [DELETE: string]: IRoute;
+  [GET: string]: IRoute<Promise<IUser[]>>;
+  [POST: string]: IRoute<Promise<IUser | undefined>>;
+  [DELETE: string]: IRoute<Promise<IUser>>;
 }
-
-interface IRoute {
-  [pathname: string]: (query?: ParsedUrlQuery) => string;
+interface IRoute<RequestType> {
+  [pathname: string]: (
+    req: IncomingMessage,
+    res: ServerResponse,
+    query?: ParsedUrlQuery
+  ) => RequestType;
 }
