@@ -6,5 +6,6 @@ export default class ListUsersController {
     const file = await userRepository.list();
     res.write(JSON.stringify(file));
     res.end();
+    return file
   }
 }

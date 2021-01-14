@@ -1,5 +1,5 @@
-import { resolve } from "dns";
 import http from "http";
+
 import check from "./helpers/routesChecker";
 import routes from "./routes";
 
@@ -9,9 +9,10 @@ export const DEFAULT_HEADERS = {
 
 console.time("app");
 const app = http.createServer(async (req, res) => {
-  const { method, pathname } = check(req);
+  const { method, pathname, query } = check(req);
   if (method && pathname) {
-    routes[method][pathname](req, res) || routes["DEFAULT"]["/error"](req, res);
+    return routes[method][pathname](req, res, query) ||
+      routes["DEFAULT"]["/error"](req, res);
   }
 });
 console.timeEnd("app");

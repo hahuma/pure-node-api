@@ -33,7 +33,7 @@ class UserRepository {
 
   public async create(userData: INewUser) {
     const users = await this._currentFile();
-    const  id = this._generateId() 
+    const id = this._generateId();
     const userWithId: IUser = { ...userData, id };
     users.push(userWithId);
     await writeFile(this._connection, JSON.stringify(users));
@@ -43,11 +43,12 @@ class UserRepository {
 
   public async delete(userId: number) {
     const users = await this._currentFile();
-    const selectedUserIndex = users.findIndex((user) => user.id === userId);
+    const selectedUserIndex = users.findIndex((user) => user.id == userId);
+    if (selectedUserIndex === -1)
+      throw new Error("User not find with id:" + userId);
+
     const selectedUser = users[selectedUserIndex];
-
-    const updatedUsers = users.filter((user) => user.id !== userId);
-
+    const updatedUsers = users.filter((user) => user.id != userId);
     await writeFile(this._connection, JSON.stringify(updatedUsers));
 
     return selectedUser;
