@@ -12,7 +12,6 @@ export default class CreateUsersController {
         res.writeHead(201, DEFAULT_HEADERS);
         res.write(JSON.stringify(newUser));
         res.end();
-        return newUser;
       } catch (error) {
         res.writeHead(400, DEFAULT_HEADERS);
         console.error(error);

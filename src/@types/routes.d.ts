@@ -1,19 +1,20 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-import { ParsedUrlQuery } from "querystring";
 import { IUser } from "./database";
 
-
-export type ParsedUrlQuery = ParsedUrlQuery & Pick<IUser, 'id'>
-export interface IRoutes {
-  [GET: string]: IRoute<Promise<IUser[]>>;
-  [POST: string]: IRoute<Promise<IUser | undefined>>;
-  [DELETE: string]: IRoute<Promise<IUser>>;
+declare module "querystring" {
+  export interface ParsedUrlQuery {
+    id: Pick<IUser, 'id'>;
+  }
 }
-interface IRoute<RequestType> {
+
+export interface IRoutes {
+  [METHOD: string]: IRoute;
+}
+interface IRoute {
   [pathname: string]: (
     req: IncomingMessage,
     res: ServerResponse,
     query?: ParsedUrlQuery
-  ) => RequestType;
+  ) => Promise<void> | void;
 }
